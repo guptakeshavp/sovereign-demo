@@ -1,1 +1,0 @@
-import{a as e}from"./format-GsAlQysg.js";var t=e();function n({size:e=11,className:n=``}){return(0,t.jsx)(`span`,{className:`stitch ${n}`,style:{width:e,height:e},"aria-hidden":`true`,children:(0,t.jsxs)(`svg`,{viewBox:`0 0 12 12`,children:[(0,t.jsx)(`path`,{d:`M1.5 1.5 L10.5 10.5`}),(0,t.jsx)(`path`,{d:`M10.5 1.5 L1.5 10.5`})]})})}export{n as t};
