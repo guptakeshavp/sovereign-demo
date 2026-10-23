@@ -1,0 +1,254 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sovereign — Formal tailoring, made to you</title>
+<meta name="description" content="Sovereign is formal tailoring for women and men. Blazers, trousers, waistcoats, camisoles and three-piece suits, cut to your measure and finished by hand.">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/main.css"><link rel="stylesheet" href="css/pages.css">
+<link rel="icon" href="assets/logo/mark.png">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script src="https://unpkg.com/lenis@1.1.18/dist/lenis.min.js"></script>
+</head>
+<body>
+<script src="js/partials.js"></script>
+
+<!-- ───────── HERO ───────── -->
+<section class="hero grain">
+  <div class="hero-photo" aria-hidden="true">
+    <img src="assets/images/hero.jpg" alt="" onerror="this.onerror=null;this.src='assets/images/women.jpg'">
+  </div>
+  <div class="hero-inner">
+    <h1 class="t-hero" data-lines>
+      <span class="rv-line"><span>The suit</span></span>
+      <span class="rv-line"><span>of <em>your</em> life.</span></span>
+    </h1>
+    <p class="t-lead rv" data-delay=".3">Formal tailoring for the day it matters. Cut to your measure, finished by hand, and marked with a single copper cross stitch.</p>
+    <div class="hero-cta rv" data-delay=".45">
+      <a class="btn copper" href="product.html?style=regent-blazer">Customise a style</a>
+      <a class="u-link" href="collection.html">Explore the collection</a>
+    </div>
+  </div>
+  <div class="hero-scroll"><i></i>Scroll</div>
+  <div class="hero-meta">Blazer · Trouser · Waistcoat<br>Camisole · Three-piece</div>
+</section>
+
+<!-- ───────── WOMEN / MEN ───────── -->
+<section class="section">
+  <div class="bleed">
+    <div class="split">
+      <a class="frame deep rv" href="collection.html?for=women">
+        <img src="assets/images/women.jpg" alt="" loading="lazy" onerror="this.remove()">
+        <div class="cloth"></div>
+        <div class="garment" id="split-w"></div>
+        <div class="label"><h2>Women</h2><span class="u-link">Shop</span></div>
+      </a>
+      <a class="frame deep rv" data-delay=".15" href="collection.html?for=men">
+        <img src="assets/images/men.jpg" alt="" loading="lazy" onerror="this.remove()">
+        <div class="cloth"></div>
+        <div class="garment" id="split-m"></div>
+        <div class="label"><h2>Men</h2><span class="u-link">Shop</span></div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ───────── FEATURED ───────── -->
+<section class="section tight">
+  <div class="wrap">
+    <div class="sec-head">
+      <div>
+        <h2 class="t-l rv" data-delay=".1">Five silhouettes. Yours to decide the rest.</h2>
+      </div>
+      <a class="u-link rv" href="collection.html">See all nine styles</a>
+    </div>
+    <div class="grid g-4" id="featured"></div>
+  </div>
+</section>
+
+<!-- ───────── CUSTOMISER TEASER ───────── -->
+<section class="section">
+  <div class="wrap">
+    <div class="teaser">
+      <div class="teaser-stage rv">
+        <div class="garment" id="teaser-garment"></div>
+        <figure class="mono-inset" id="teaser-mono"></figure>
+      </div>
+      <div>
+        <h2 class="t-l rv" data-delay=".1">Yours, in <em class="t-i">every</em> stitch.</h2>
+        <p class="t-lead rv" data-delay=".2" style="margin-top:20px;max-width:46ch">Choose the cloth, the lapel, the cut and the lining. Add your initials. Watch the garment change as you decide. Then tell us your measurements, or pick a size.</p>
+
+        <div class="opt-group rv" data-delay=".3">
+          <div class="eyebrow"><span>Cloth</span><b id="t-colour-name">Charcoal</b></div>
+          <div class="swatches" id="t-swatches"></div>
+        </div>
+        <div class="opt-group rv" data-delay=".35">
+          <div class="eyebrow"><span>Lapel</span></div>
+          <div class="seg" id="t-lapel"></div>
+        </div>
+        <div class="opt-group rv" data-delay=".4">
+          <div class="eyebrow"><span>Monogram</span><b class="muted">Inside the chest pocket</b></div>
+          <div class="mono-input"><input id="t-mono" maxlength="3" placeholder="ABC" aria-label="Your initials"><span class="stitch"></span></div>
+        </div>
+        <div class="rv" data-delay=".45" style="margin-top:40px">
+          <a class="btn solid" id="t-open" href="product.html?style=regent-blazer">Open the full customiser</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ───────── CHAPTERS: how a Sovereign is made ───────── -->
+<section class="chapters dark grain" id="chapters">
+  <div class="wrap chapters-pin">
+    <div>
+      <p class="eyebrow on-dark">How a Sovereign is made</p>
+      <div class="chapters-list" id="chapters-list">
+        <div class="chapter active">
+          <h3>The <em>cloth</em> comes first.</h3>
+          <p>Worsted wools and wool-silk blends from mills we have visited and would visit again. Each cloth is chosen for how it drapes on the second wear, not the first.</p>
+        </div>
+        <div class="chapter">
+          <h3>A canvas gives it <em>shape</em>.</h3>
+          <p>A floating half-canvas is sewn in by hand so the chest rolls with you rather than sitting flat. It is why a Sovereign looks better in a year than it does today.</p>
+        </div>
+        <div class="chapter">
+          <h3>The <em>cut</em> is yours alone.</h3>
+          <p>Your measurements, your posture, your preferences. A pattern is drafted for you and kept on file, so the second commission is simpler than the first.</p>
+        </div>
+        <div class="chapter">
+          <h3>One copper <em>cross stitch</em>.</h3>
+          <p>Where the lioness wears hers, every piece carries a single stitch on the inside. Small enough that only you know it is there. That is the point.</p>
+        </div>
+      </div>
+      <div class="progress" id="chapters-progress">
+        <button class="active">Cloth</button>
+        <button>Canvas</button>
+        <button>Cut</button>
+        <button>Cross stitch</button>
+      </div>
+    </div>
+    <div class="chapters-visual" id="chapters-visual">
+      <div class="frame deep active"><div class="cloth"></div><img src="assets/images/cloth.jpg" alt="" loading="lazy" onerror="this.remove()"><div class="caption"><span>Cloth</span><span>Photography to follow</span></div></div>
+      <div class="frame deep"><div class="cloth"></div><div class="garment" id="ch-canvas"></div><img src="assets/images/canvas.jpg" alt="" loading="lazy" onerror="this.remove()"><div class="caption"><span>Canvas</span><span>Photography to follow</span></div></div>
+      <div class="frame deep"><div class="cloth"></div><div class="garment" id="ch-cut"></div><img src="assets/images/cut.jpg" alt="" loading="lazy" onerror="this.remove()"><div class="caption"><span>Cut</span><span>Photography to follow</span></div></div>
+      <div class="frame deep"><div class="cloth"></div><div class="garment" id="ch-stitch"></div><img src="assets/images/stitch.jpg" alt="" loading="lazy" onerror="this.remove()"><div class="caption"><span>Cross stitch</span><span>Photography to follow</span></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ───────── LOOKS ───────── -->
+<section class="section">
+  <div class="wrap">
+    <div class="sec-head">
+      <div>
+        <h2 class="t-l rv" data-delay=".1">Dressed for the day.</h2>
+      </div>
+      <p class="muted rv" style="max-width:38ch">Three looks our studio would put together, each piece still open to your changes.</p>
+    </div>
+    <div class="grid g-3" id="looks"></div>
+  </div>
+</section>
+
+<div id="footer-slot"></div>
+
+<script src="js/garments.js"></script>
+<script src="js/main.js"></script>
+<script>
+(function () {
+  const G = window.Garments;
+  const byId = id => G.CATALOGUE.find(p => p.id === id);
+  const $ = s => document.querySelector(s);
+
+  // split panels
+  $('#split-w').innerHTML = G.renderProduct(byId('marlowe-blazer'));
+  $('#split-m').innerHTML = G.renderProduct(byId('regent-suit'));
+
+  // featured cards
+  const card = p => `
+    <a class="card rv" href="product.html?style=${p.id}">
+      <div class="frame"><div class="garment">${G.renderProduct(p)}</div></div>
+      <div class="card-meta"><h3>${p.name}</h3><span class="price">From ${G.money(p.price)}</span></div>
+      <p class="card-sub">${p.type === 'suit' ? 'Three pieces' : p.type[0].toUpperCase() + p.type.slice(1)} · Made to order</p>
+    </a>`;
+  $('#featured').innerHTML = ['regent-blazer','marlowe-blazer','hale-trouser','regent-suit'].map(id => card(byId(id))).join('');
+
+  // teaser customiser
+  const state = { colour: G.COLOURS[0], lapel: 'notch', mono: '' };
+  const stage = $('#teaser-garment'), mono = $('#teaser-mono');
+  function draw() {
+    stage.innerHTML = G.render('blazer', { colour: state.colour.hex, lapel: state.lapel, buttons: 2, fitScale: 1 });
+    $('#t-colour-name').textContent = state.colour.name;
+    $('#t-open').href = `product.html?style=regent-blazer&colour=${state.colour.id}&lapel=${state.lapel}${state.mono ? '&mono=' + encodeURIComponent(state.mono) : ''}`;
+    if (state.mono) { mono.innerHTML = G.monogram(state.mono, '#A5673F'); mono.classList.add('show'); } else mono.classList.remove('show');
+    if (window.SOV && window.SOV.hasGsap && !window.SOV.reduce) gsap.fromTo(stage, { opacity: .6, y: 4 }, { opacity: 1, y: 0, duration: .5, ease: 'power2.out' });
+  }
+  $('#t-swatches').innerHTML = G.COLOURS.map(c => `<button class="swatch ${['ivory','dove'].includes(c.id) ? 'light' : ''}" style="background:${c.hex}" data-id="${c.id}" aria-label="${c.name}" aria-pressed="${c.id===state.colour.id}"></button>`).join('');
+  $('#t-lapel').innerHTML = G.LAPELS.map(l => `<button data-id="${l.id}" aria-pressed="${l.id===state.lapel}">${l.name}</button>`).join('');
+  document.querySelectorAll('#t-swatches .swatch, #t-swatches .stitch').forEach(el => { if (el.classList.contains('stitch') && !el.children.length) el.innerHTML = '<svg viewBox="0 0 12 12"><path d="M1.5 1.5 L10.5 10.5"/><path d="M10.5 1.5 L1.5 10.5"/></svg>'; });
+  $('#t-swatches').addEventListener('click', e => {
+    const b = e.target.closest('.swatch'); if (!b) return;
+    state.colour = G.COLOURS.find(c => c.id === b.dataset.id);
+    document.querySelectorAll('#t-swatches .swatch').forEach(s => s.setAttribute('aria-pressed', s === b));
+    draw();
+  });
+  $('#t-lapel').addEventListener('click', e => {
+    const b = e.target.closest('button'); if (!b) return;
+    state.lapel = b.dataset.id;
+    document.querySelectorAll('#t-lapel button').forEach(s => s.setAttribute('aria-pressed', s === b));
+    draw();
+  });
+  $('#t-mono').addEventListener('input', e => { state.mono = e.target.value.replace(/[^a-z]/gi, '').toUpperCase(); e.target.value = state.mono; draw(); });
+  draw();
+
+  // chapters visuals
+  $('#ch-canvas').innerHTML = G.render('blazer', { colour: '#8E8A84', lapel: 'notch', buttons: 2 });
+  $('#ch-cut').innerHTML = G.render('suit', { colour: '#2F2D2B', lapel: 'peak', buttons: 1, fitScale: .95 });
+  $('#ch-stitch').innerHTML = G.render('blazer', { colour: '#242B3A', lapel: 'notch', buttons: 2, boutonniere: true });
+
+  // looks
+  const looks = [
+    { name: 'The boardroom', items: ['regent-blazer','ascot-waistcoat','carlton-trouser'], hero: 'regent-suit', colour: '#2F2D2B' },
+    { name: 'The courtroom', items: ['marlowe-suit'], hero: 'marlowe-suit', colour: '#4E4B48' },
+    { name: 'The first day', items: ['marlowe-blazer','aster-camisole','hale-trouser'], hero: 'marlowe-blazer', colour: '#948F89' },
+  ];
+  $('#looks').innerHTML = looks.map((l, i) => {
+    const items = l.items.map(byId); const total = items.reduce((s, p) => s + p.price, 0);
+    return `<div class="look rv" data-delay="${i*.12}">
+      <div class="frame"><div class="garment">${G.renderProduct(byId(l.hero), { colour: l.colour })}</div></div>
+      <div class="card-meta"><h3>${l.name}</h3></div>
+      <ul>${items.map(p => `<li><a href="product.html?style=${p.id}">${p.name}</a><span>${G.money(p.price)}</span></li>`).join('')}</ul>
+      <div class="total"><span>Complete look</span><span>${G.money(total)}</span></div>
+    </div>`;
+  }).join('');
+
+  // pinned chapters
+  window.SOV.onReady.push(() => {
+    if (window.SOV.reduce || !window.SOV.hasGsap) return;
+    const chapters = document.querySelectorAll('#chapters-list .chapter');
+    const frames = document.querySelectorAll('#chapters-visual .frame');
+    const btns = document.querySelectorAll('#chapters-progress button');
+    const n = chapters.length;
+    let cur = 0;
+    const show = i => {
+      if (i === cur) return; cur = i;
+      chapters.forEach((c, k) => { c.classList.toggle('active', k === i); if (k !== i) gsap.to(c, { opacity: 0, y: -16, duration: .45, ease: 'power2.in', overwrite: true }); });
+      frames.forEach((f, k) => f.classList.toggle('active', k === i));
+      btns.forEach((b, k) => b.classList.toggle('active', k === i));
+      gsap.fromTo(chapters[i], { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: .9, ease: 'power3.out', overwrite: true });
+    };
+    ScrollTrigger.create({
+      trigger: '#chapters', start: 'top top', end: () => '+=' + (window.innerHeight * (n - 1) * 1.1), pin: '.chapters-pin', scrub: true,
+      onUpdate: self => show(Math.min(n - 1, Math.floor(self.progress * n + 0.0001))),
+    });
+    // hero entrance
+    gsap.to('.hero-photo', { opacity: 1, duration: 2, ease: 'power2.out', delay: .1 });
+    gsap.from('.hero-photo img', { scale: 1.06, duration: 3.2, ease: 'power2.out' });
+  });
+})();
+</script>
+</body>
+</html>
