@@ -2,7 +2,7 @@
 
 An Indian tailoring and formalwear concept, focused on women.
 
-- **Editable React application:** [`sovereign-react/`](sovereign-react/)
+- **React application:** [`sovereign-react/`](sovereign-react/)
 - **Published demo:** [Sovereign](https://guptakeshavp.github.io/sovereign-demo/)
 
 ## Develop
@@ -16,8 +16,8 @@ npm run dev
 
 Run `npm run build` to type-check and create a production build in `dist/`, and `npm run lint` for lint checks. See the [application README](sovereign-react/README.md) for architecture and demo limitations.
 
-## Source and publishing
+## Publishing
 
-The repository root holds the previously published website files. The `sovereign-react/` directory holds the editable React, TypeScript and Vite source, lockfile, design documentation and media assets. Source backups and publishing are separate: updating the source directory does not replace the files served by the existing homepage. Publishing a new build requires separate approval.
+The repository holds only the React source. Every push to `main` runs [`.github/workflows/deploy.yml`](.github/workflows/deploy.yml), which builds `sovereign-react/` and publishes `dist/` to GitHub Pages. Build output is not committed.
 
 Prices, garment specifications and contact information are demonstration data. Checkout does not take payment. Some imagery is AI-created concept photography; see the [asset notes](sovereign-react/docs/editorial/SOURCES.md).

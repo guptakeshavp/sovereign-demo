@@ -34,7 +34,7 @@ src/
   pages/          Home · Collection · Product · Atelier · Fit · Look · Story · Wishlist · Bag
   styles/global.css   design tokens (@theme) and named classes
   lib/            format.ts (₹, cm/in) · motion.ts (GSAP hooks) · storage.ts
-public/           images/ (AI-generated demo photography) · logo/ · fonts/
+public/           images/ (AI-generated demo photography) · media/ · logo/
 ```
 
 ## Documents
@@ -51,9 +51,7 @@ public/           images/ (AI-generated demo photography) · logo/ · fonts/
 ## Live demo
 - React demo: https://guptakeshavp.github.io/sovereign-demo/
 
-The public repo `guptakeshavp/sovereign-demo` now also stores this editable project in `sovereign-react/`. The repository root contains the separately published React site.
-
-Source commits do not update the published application files. Publishing the latest design is a separate, manual step after approval: build this project, then update the published files while retaining `sovereign-react/` and Git metadata. No automatic source-build workflow is configured in this repository.
+Every push to `main` builds this project and publishes `dist/` to GitHub Pages through `.github/workflows/deploy.yml` at the repository root. Build output is not committed.
 
 Dependencies, build output, local review screenshots/backups and environment files are excluded from source control. Install dependencies from the committed lockfile with `npm ci`.
 
@@ -62,4 +60,4 @@ Dependencies, build output, local review screenshots/backups and environment fil
 The campaign retains the café conversation image alongside the earlier women-only charcoal and stone scenes. Product imagery defaults to neutral colours. Product names/prices remain visible; fuller information opens in Details. The customiser, fit journeys, wishlist and demonstration bag remain available. Homepage contact details are explicit placeholders.
 
 ## Review pass (23 Oct 2026)
-`DESIGN_AUDIT.md` lists findings by severity and what was changed; `CONTENT_REVIEW.md` classifies every brand claim; `review/before` and `review/after` hold the screenshots used for the visual review.
+`DESIGN_AUDIT.md` lists findings by severity and what was changed; `CONTENT_REVIEW.md` classifies every brand claim.
