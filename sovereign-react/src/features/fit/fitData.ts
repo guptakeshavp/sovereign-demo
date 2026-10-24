@@ -1,0 +1,46 @@
+import type { GarmentType } from '../../data/types'
+
+/* Measurement steps. Ranges are plausibility bounds for validation, in cm. DEMO. */
+export interface MeasureStep { key: string; name: string; why: string; how: string; tip: string; hold: string; mistake: string; min: number; max: number; for: GarmentType[] }
+export const MEASURES: MeasureStep[] = [
+  { key: 'bust', name: 'Bust', why: 'Sets the chest of a blazer or waistcoat and how a camisole sits.', how: 'Around the fullest part of the bust, tape level across the back.', tip: 'Breathe out, let the tape rest. It should not press.', hold: 'Snug but not tight; you should fit one finger under it. Level all the way round.', mistake: 'Measuring over a padded bra or a thick knit adds two to four centimetres.', min: 70, max: 140, for: ['blazer', 'waistcoat', 'camisole', 'suit'] },
+  { key: 'waist', name: 'Waist', why: 'Where the blazer is shaped and where a trouser waistband sits.', how: 'Around the natural waist, where you bend to the side.', tip: 'Usually just above the navel. Keep one finger under the tape.', hold: 'Resting on the skin, not pulled in. Do not hold your breath.', mistake: 'Measuring at the trouser waistband instead of the natural waist, which is higher.', min: 55, max: 130, for: ['blazer', 'waistcoat', 'trousers', 'camisole', 'suit'] },
+  { key: 'hip', name: 'Hip', why: 'Decides the sweep of a blazer hem and the seat of a trouser.', how: 'Around the fullest part of the hips, feet together.', tip: 'Check the tape is level in a mirror.', hold: 'Light contact all round; the tape should slide, not dig.', mistake: 'Standing with feet apart; keep them together.', min: 75, max: 150, for: ['blazer', 'trousers', 'suit'] },
+  { key: 'shoulder', name: 'Shoulder', why: 'The one measurement that cannot be altered later.', how: 'Across the back from the edge of one shoulder to the other.', tip: 'Ask someone to take this one. Stand naturally.', hold: 'Flat across the back, following the slope, not pulled straight.', mistake: 'Taking it from the front, or on a shoulder that is raised.', min: 32, max: 55, for: ['blazer', 'suit'] },
+  { key: 'sleeve', name: 'Sleeve', why: 'Sets the cuff length; a bracelet sleeve is cut shorter from here.', how: 'From the shoulder edge, over a slightly bent elbow, to the wrist bone.', tip: 'Where you want the cuff to end.', hold: 'Follow the arm with the elbow slightly bent, as you would hold a bag.', mistake: 'A straight arm, which reads two centimetres short.', min: 48, max: 72, for: ['blazer', 'suit'] },
+  { key: 'inseam', name: 'Inseam', why: 'Sets the trouser length for your usual heel height.', how: 'From the top of the inner thigh to where you want the hem.', tip: 'Measure a trouser you love, laid flat, if easier.', hold: 'Tape straight down the inside leg; wear the shoes you would wear with it.', mistake: 'Measuring from the crotch seam of a trouser that already fits badly.', min: 60, max: 95, for: ['trousers', 'suit'] },
+  { key: 'length', name: 'Jacket length', why: 'Sets where the blazer hem falls on your body.', how: 'From the top of the shoulder, beside the neck, down to the hem you want.', tip: 'Classic length covers the hip bone.', hold: 'Straight down the back from beside the neck, not over the curve of the shoulder blade.', mistake: 'Starting at the shoulder point instead of beside the neck.', min: 50, max: 85, for: ['blazer', 'suit'] },
+]
+export const measuresFor = (t: GarmentType) => MEASURES.filter(m => m.for.includes(t))
+
+/* Guided-fit questions. Deliberately short and visual; produces GENERAL FIT GUIDANCE (a demo heuristic), never a made-to-measure recommendation. */
+export interface Question { key: string; q: string; why: string; options: { id: string; name: string; note?: string }[] }
+export const QUESTIONS: Question[] = [
+  { key: 'usual', q: 'Which size do you usually buy in tailoring?', why: 'Your usual size is the best starting point we have.', options: ['UK 6','UK 8','UK 10','UK 12','UK 14','UK 16','UK 18'].map(s => ({ id: s, name: s })) },
+  { key: 'height', q: 'How tall are you?', why: 'Length and sleeve change with height more than with size.', options: [{ id: 'short', name: 'Under 160 cm' }, { id: 'mid', name: '160 to 170 cm' }, { id: 'tall', name: 'Over 170 cm' }] },
+  { key: 'shape', q: 'Where does tailoring usually feel tight first?', why: 'Tells us which way to grade the pattern.', options: [{ id: 'shoulder', name: 'Shoulders or arms' }, { id: 'bust', name: 'Across the bust' }, { id: 'hip', name: 'Hips or seat' }, { id: 'none', name: 'Nowhere in particular' }] },
+  { key: 'pref', q: 'How do you like a blazer to sit?', why: 'Fit is a preference, not a measurement.', options: [{ id: 'close', name: 'Close to the body' }, { id: 'easy', name: 'With a little ease' }, { id: 'open', name: 'Loose, worn open' }] },
+]
+
+export function recommend(ans: Record<string, string>): { size: string; fit: string; note: string } | null {
+  if (!ans.usual) return null
+  const sizes = ['UK 6','UK 8','UK 10','UK 12','UK 14','UK 16','UK 18']
+  let i = sizes.indexOf(ans.usual)
+  if (ans.shape === 'bust' || ans.shape === 'hip') i = Math.min(sizes.length - 1, i + 1)
+  if (ans.pref === 'close' && ans.shape === 'none') i = Math.max(0, i - 0)
+  const fit = ans.pref === 'close' ? 'sculpted' : ans.pref === 'open' ? 'relaxed' : 'signature'
+  const note = ans.shape === 'shoulder' ? 'Shoulders are the one thing tailoring cannot easily alter later, so we would suggest confirming this with Sovereign before ordering.'
+    : ans.height === 'tall' ? 'Consider the Longline length and a standard sleeve.' : ans.height === 'short' ? 'Consider the Cropped or Classic length and a bracelet sleeve.' : 'A starting point for choosing a standard size. Confirm it against the size chart before ordering.'
+  return { size: sizes[i], fit, note }
+}
+
+/* Indicative size chart (demo). Body measurements in cm. */
+export const SIZE_CHART: { size: string; bust: string; waist: string; hip: string }[] = [
+  { size: 'UK 6', bust: '80–83', waist: '62–65', hip: '87–90' },
+  { size: 'UK 8', bust: '84–87', waist: '66–69', hip: '91–94' },
+  { size: 'UK 10', bust: '88–91', waist: '70–73', hip: '95–98' },
+  { size: 'UK 12', bust: '92–96', waist: '74–78', hip: '99–103' },
+  { size: 'UK 14', bust: '97–101', waist: '79–83', hip: '104–108' },
+  { size: 'UK 16', bust: '102–107', waist: '84–89', hip: '109–114' },
+  { size: 'UK 18', bust: '108–113', waist: '90–95', hip: '115–120' },
+]

@@ -1,0 +1,40 @@
+/* Clothes lead; image motion is optional and stops during interaction. */
+.campaign-hero { position: relative; margin-top: 84px; aspect-ratio: 16/9; isolation: isolate; display: grid; align-items: end; background: var(--color-bone); color: var(--color-bone); overflow: hidden; }
+.campaign-media, .campaign-frame, .campaign-shade { position: absolute; inset: 0; }
+.campaign-media { z-index: -2; touch-action: pan-y; }
+.campaign-frame { opacity: 0; transition: opacity .9s var(--ease-out-soft); }
+.campaign-frame.is-active { opacity: 1; }
+.campaign-frame img { width: 100%; height: 100%; object-fit: cover; animation: campaign-drift 14s linear both; animation-play-state: paused; }
+.campaign-frame:not(.is-active) img { animation: none; transform: scale(1); }
+.is-playing .campaign-frame.is-active img { animation-play-state: running; }
+.campaign-hero.is-reduced .campaign-frame { transition: none; }
+.campaign-hero.is-reduced .campaign-frame img { animation: none !important; transform: none !important; }
+.campaign-shade { z-index: -1; pointer-events: none; background: linear-gradient(90deg, rgba(22,19,15,.34), transparent 48%), linear-gradient(0deg, rgba(22,19,15,.72), transparent 46%); }
+.campaign-copy { padding-top: 150px; padding-bottom: max(48px, calc(56.25vw + 108px - 100svh)); }
+.campaign-copy h1 { font-family: var(--font-display); font-size: clamp(54px, 5.6vw, 88px); line-height: 1.1; font-weight: 400; letter-spacing: -.025em; margin-bottom: 24px; }
+.campaign-copy h1 em { font-weight: 400; }
+.campaign-bottom { display: flex; align-items: center; justify-content: space-between; gap: 24px; }
+.campaign-links { display: flex; align-items: center; flex-wrap: wrap; gap: 28px; }
+.campaign-details { display: inline-flex; align-items: center; gap: 8px; min-height: 44px; font-size: 11px; letter-spacing: .12em; text-transform: uppercase; }
+.campaign-controls { display: flex; align-items: center; gap: 6px; }
+.campaign-controls button { display: grid; place-items: center; width: 44px; height: 44px; border: 0; background: transparent; color: inherit; cursor: pointer; }
+.campaign-count { font-size: 11px; letter-spacing: .08em; margin-right: 12px; white-space: nowrap; }
+@keyframes campaign-drift { from { transform: scale(1) translateX(0); } to { transform: scale(1.045) translateX(-1%); } }
+@media (hover: hover) and (pointer: fine) { .campaign-controls button:hover { opacity: .65; } }
+@media (max-width: 639px) {
+  .campaign-hero { display: block; margin-top: 0; aspect-ratio: auto; padding-top: 84px; color: var(--color-ink); overflow: visible; }
+  .campaign-media { position: relative; z-index: 0; height: clamp(330px, 52svh, 500px); overflow: hidden; }
+  .campaign-frame img { object-fit: cover; }
+  .campaign-shade { display: none; }
+  .campaign-copy { padding-block: 26px 28px; }
+  .campaign-copy h1 { font-size: clamp(36px, 10vw, 46px); margin-bottom: 14px; }
+  .campaign-bottom { gap: 8px; flex-wrap: wrap; }
+  .campaign-links { width: 100%; justify-content: space-between; gap: 12px; }
+  .campaign-links > .link, .campaign-details { font-size: 10px; letter-spacing: .12em; }
+  .campaign-controls { gap: 0; margin-left: auto; }
+  .campaign-count { margin-right: 2px; font-size: 10px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .campaign-frame { transition: none; }
+  .campaign-frame img { animation: none !important; transform: none !important; }
+}
