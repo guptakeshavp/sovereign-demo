@@ -53,7 +53,7 @@ function Shell() {
           </Routes>
         </Suspense>
       </main>
-      {!loc.pathname.startsWith('/atelier') && <Footer />}
+      {!loc.pathname.startsWith('/atelier') && <Footer compactBrand={loc.pathname === '/story'} />}
       <BagDrawer />
     </>
   )

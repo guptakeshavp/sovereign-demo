@@ -1,188 +1,86 @@
-import { useLayoutEffect, useRef } from 'react'
+import { useRef } from 'react'
 import { Link } from 'react-router-dom'
-import gsap from 'gsap'
-import { ScrollTrigger } from 'gsap/ScrollTrigger'
-import { useReveal, useScrollTop } from '../lib/motion'
-import { Mark } from '../components/Logo'
-import { Stitch } from '../components/Stitch'
+import { ArrowDown, ArrowUpRight } from 'lucide-react'
+import { Mark, Wordmark } from '../components/Logo'
+import { useStoryMotion } from '../features/story/useStoryMotion'
 import '../styles/story.css'
 
 const OUTFITS = [
-  { image: './images/campaign-v2/suit.jpg', alt: 'An Indian woman wearing a charcoal blazer, waistcoat and straight-leg trousers together', title: 'Together, a statement.', copy: 'Three pieces. One complete silhouette.' },
-  { image: './images/story-v1/waistcoat.jpg', alt: 'The same charcoal waistcoat and trousers, worn without the blazer', title: 'A little more freedom.', copy: 'Waistcoat and trouser. A lighter mood.' },
-  { image: './images/story-v1/separates.jpg', alt: 'The charcoal blazer and trousers styled with an ivory silk camisole', title: 'The day takes another turn.', copy: 'Add silk. Leave the evening open.' },
+  { image: './images/campaign-v2/suit.jpg', alt: 'An Indian woman in a charcoal blazer, waistcoat and straight-leg trousers', title: 'The complete suit.', copy: 'A little presence goes a long way.' },
+  { image: './images/story-v1/waistcoat.jpg', alt: 'The same woman, pose and charcoal trousers, wearing the waistcoat without the blazer', title: 'A lighter mood.', copy: 'Leave a layer. Keep your own line.' },
+  { image: './images/story-v1/separates.jpg', alt: 'The same woman in the charcoal blazer and trousers with an ivory silk camisole', title: 'The evening, open.', copy: 'A change of plans. A touch of silk.' },
 ]
+
+function Chapter({ children }: { children: React.ReactNode }) {
+  return <p className="story-chapter"><span>{children}</span></p>
+}
 
 export default function Story() {
   const root = useRef<HTMLDivElement>(null)
-  const wardrobe = useRef<HTMLElement>(null)
-  useScrollTop(null)
-  useReveal(root)
-
-  useLayoutEffect(() => {
-    const scope = root.current
-    const scene = wardrobe.current
-    if (!scope || !scene) return
-    const media = gsap.matchMedia()
-    let mounted = true
-
-    // Native scrolling stays in control. Only this wardrobe scene is pinned.
-    media.add({ wide: '(min-width: 1024px) and (min-height: 650px)', motion: '(prefers-reduced-motion: no-preference)' }, context => {
-      if (!context.conditions?.motion) return
-      const wide = context.conditions.wide
-      const animations = gsap.context(() => {
-        if (wide) {
-          gsap.utils.toArray<HTMLElement>('[data-story-drift]', scope).forEach(image => {
-            const distance = Number(image.dataset.storyDrift)
-            const frame = image.closest('.story-moment') ?? image.closest('figure')!
-            gsap.fromTo(frame, { yPercent: 0 }, { yPercent: distance, ease: 'none', scrollTrigger: {
-              trigger: frame.parentElement,
-              start: 'top bottom', end: 'bottom top', scrub: true,
-            } })
-          })
-          gsap.to('.story-hero-visual', { yPercent: 28, ease: 'none', scrollTrigger: {
-            trigger: '.story-hero', start: 'top top', end: 'bottom top', scrub: true,
-          } })
-          gsap.to('.story-hero-visual img', { scale: 1.035, transformOrigin: '75% 25%', ease: 'none', scrollTrigger: {
-            trigger: '.story-hero', start: 'top top', end: 'bottom top', scrub: true,
-          } })
-          gsap.fromTo('.story-material-main', { clipPath: 'inset(14% 16% 14% 16%)' }, { clipPath: 'inset(0% 0% 0% 0%)', ease: 'none', scrollTrigger: {
-            trigger: '.story-material', start: 'top 75%', end: 'center center', scrub: true,
-          } })
-
-          gsap.fromTo('.story-material-main img', { scale: 1.18 }, { scale: 1, ease: 'none', scrollTrigger: {
-            trigger: '.story-material-images', start: 'top bottom', end: 'bottom top', scrub: true,
-          } })
-
-          scene.classList.add('is-story-pinned')
-          const photos = scene.querySelectorAll<HTMLElement>('.story-outfit-media')
-          const notes = scene.querySelectorAll<HTMLElement>('.story-outfit-copy')
-          gsap.set([photos[1], photos[2]], { clipPath: 'inset(100% 0 0 0)' })
-          gsap.set([notes[1], notes[2]], { opacity: .75 })
-          const sequence = gsap.timeline({ scrollTrigger: {
-            trigger: scene, start: 'top top', end: '+=160%', pin: true, scrub: .5,
-            invalidateOnRefresh: true, anticipatePin: 1,
-          } })
-          sequence.to({}, { duration: .7 })
-            .to(photos[1], { clipPath: 'inset(0% 0 0 0)', duration: .6, ease: 'none' })
-            .to(notes[0], { opacity: .75, duration: .3 }, '<')
-            .to(notes[1], { opacity: 1, duration: .3 }, '<')
-            .to({}, { duration: .6 })
-            .to(photos[2], { clipPath: 'inset(0% 0 0 0)', duration: .6, ease: 'none' })
-            .to(notes[1], { opacity: .75, duration: .3 }, '<')
-            .to(notes[2], { opacity: 1, duration: .3 }, '<')
-            .to({}, { duration: .7 })
-        }
-
-        gsap.fromTo('.story-signature-stitch path', { strokeDasharray: 16, strokeDashoffset: 16 }, {
-          strokeDashoffset: 0, duration: .5, stagger: .08, ease: 'power2.out',
-          scrollTrigger: { trigger: '.story-signature-stitch', start: 'top 88%', once: true },
-        })
-      }, scope)
-      return () => { animations.revert(); scene.classList.remove('is-story-pinned') }
-    })
-
-    // Font metrics settle before the pinned scene's final measurements.
-    void document.fonts.ready.then(() => { if (mounted) ScrollTrigger.refresh() })
-    return () => { mounted = false; media.revert() }
-  }, [])
+  useStoryMotion(root)
 
   return (
-    <div ref={root} className="story-page">
-      <section className="story-hero surface-dark" data-hero aria-labelledby="story-title">
-        <picture className="story-hero-visual">
-          <source media="(max-width: 639px)" srcSet="./images/campaign-v2/suit.jpg" />
-          <img src="./images/story-v1/hero.jpg" alt="An Indian woman in charcoal tailoring, standing with quiet confidence in morning light" width="1672" height="941" fetchPriority="high" />
-        </picture>
+    <div ref={root} className="page story-page">
+      <section className="story-hero" data-story-scene="presence" aria-labelledby="story-title">
+        <figure className="story-hero-visual">
+          <img src="./images/campaign-v2/suit.jpg" alt="An Indian woman in charcoal tailoring, standing in warm morning light" width="1122" height="1402" fetchPriority="high" />
+        </figure>
         <div className="story-hero-shade" />
         <div className="wrap story-hero-copy">
-          <p className="label rv">Sovereign · Our story</p>
-          <h1 id="story-title" data-lines>
-            <span className="rv-line"><span>Before the cut,</span></span>
-            <span className="rv-line"><span>there is</span></span>
-            <span className="rv-line"><span>a <em>woman.</em></span></span>
-          </h1>
-          <p className="story-hero-line rv" data-delay=".25">A life, cut on her own terms.</p>
+          <Chapter>The woman</Chapter>
+          <h1 id="story-title" tabIndex={-1}>Her own<br /><em>measure.</em></h1>
+          <p id="story-feeling">An Indian house of tailoring.<br />Shaped around the woman within.</p>
         </div>
+        <div className="wrap story-hero-foot"><span>Sovereign · Our story</span><span className="story-scroll-cue">Scroll to unfold <ArrowDown size={14} strokeWidth={1.2} /></span></div>
       </section>
 
-      <section className="story-opening wrap" aria-labelledby="story-feeling">
-        <h2 id="story-feeling" className="story-heading rv">She knows how<br />she wants to <em>feel.</em></h2>
-        <div className="story-opening-copy rv" data-delay=".1">
-          <p>A new Indian house of women’s tailoring. Shaped around her, from the first choice to the final stitch.</p>
-        </div>
-      </section>
-
-      <section className="story-moments wrap" aria-labelledby="story-day">
-        <h2 id="story-day" className="story-heading rv">A full day.<br />Wholly <em>herself.</em></h2>
-        <div className="story-moment-grid">
-          <article className="story-moment story-moment-morning">
-            <figure className="story-photo rv">
-              <img src="./images/story-v1/arrival.jpg" alt="A woman in dove-grey tailoring walking through a sunlit limestone arcade" width="1122" height="1402" loading="lazy" decoding="async" data-story-drift="12" />
-            </figure>
-            <div className="story-moment-copy rv"><h3>For the first hello.</h3><p>A sharp shoulder. Room to move.</p></div>
-          </article>
-          <article className="story-moment story-moment-evening">
-            <figure className="story-photo rv">
-              <img src="./images/story-v1/evening.jpg" alt="A woman in an espresso blazer and ivory silk, seated on a terrace in late afternoon light" width="1122" height="1402" loading="lazy" decoding="async" data-story-drift="-18" />
-            </figure>
-            <div className="story-moment-copy rv"><h3>For the hours after.</h3><p>Open lapels. Silk. Plans left open.</p></div>
-          </article>
-        </div>
-      </section>
-
-      <section className="story-material" aria-labelledby="story-cloth">
-        <div className="wrap">
-          <div className="story-material-heading">
-            <h2 id="story-cloth" className="story-heading rv">It begins<br />with the <em>cloth.</em></h2>
-            <p className="rv">Feel the texture. Follow the line.</p>
+      <section className="story-material story-sequence" data-story-scene="cloth" aria-labelledby="story-cloth">
+        <div className="story-stage story-material-stage">
+          <div className="story-material-visuals">
+            <figure className="story-material-cloth"><img src="./images/campaign-v2/cloth.jpg" alt="The fine diagonal weave of charcoal, stone and dove-grey cloth" width="1254" height="1254" loading="lazy" decoding="async" /></figure>
+            <figure className="story-material-lapel"><img src="./images/campaign-v2/lapel.jpg" alt="The cloth shaped into a defined shoulder and peak lapel" width="1254" height="1254" loading="lazy" decoding="async" /></figure>
+            <svg className="story-cut-guide" viewBox="0 0 1254 1254" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+              <g transform="translate(680 80) rotate(17)"><rect className="story-cut-line" width="540" height="1.5" /></g>
+              <g transform="translate(800 258) rotate(118)"><rect className="story-cut-line" width="650" height="1.5" /></g>
+              <g transform="translate(490 830) rotate(-119)"><rect className="story-cut-line" width="410" height="1.5" /></g>
+            </svg>
+            <div className="story-material-shade" />
           </div>
-          <div className="story-material-images">
-            <figure className="story-material-main story-photo">
-              <img src="./images/campaign-v2/cloth.jpg" alt="Charcoal, stone and dove-grey cloth, with the diagonal twill weave visible in the light" width="1254" height="1254" loading="lazy" decoding="async" data-story-drift="4" />
-            </figure>
-            <figure className="story-material-detail story-photo rv">
-              <img src="./images/campaign-v2/lapel.jpg" alt="A close view of a dove-grey lapel, its seam and woven texture" width="1254" height="1254" loading="lazy" decoding="async" data-story-drift="-24" />
-            </figure>
+          <div className="wrap story-material-copy">
+            <Chapter>The line</Chapter>
+            <h2 id="story-cloth">A line of<br /><em>her own.</em></h2>
+            <p>Cloth. A line.<br />A shape that feels like you.</p>
           </div>
-          <p className="story-material-end rv">Cloth becomes a line.<br />The line becomes <em>yours.</em></p>
+          <div className="story-material-index" aria-hidden="true"><span>Cloth</span><span className="story-material-rule"><i /></span><span>Silhouette</span></div>
         </div>
       </section>
 
-      <section ref={wardrobe} className="story-wardrobe" aria-labelledby="story-wardrobe-title">
-        <div className="wrap story-wardrobe-inner">
-          <div className="story-wardrobe-heading">
-            <h2 id="story-wardrobe-title" className="story-heading">One cloth.<br />A week of <em>possibilities.</em></h2>
-            <p>Together, or entirely your own way.</p>
+      <section className="story-wardrobe story-sequence" data-story-scene="possibility" aria-labelledby="story-wardrobe-title">
+        <div className="story-stage story-wardrobe-stage">
+          <div className="wrap story-wardrobe-heading">
+            <Chapter>Possibility</Chapter>
+            <h2 id="story-wardrobe-title">One suit.<br /><em>Many ways{' '}<br />to be.</em></h2>
+            <p id="story-day">A whole day. Wholly yourself.</p>
           </div>
           <div className="story-outfits">
-            {OUTFITS.map(outfit => <article key={outfit.image} className="story-outfit">
+            {OUTFITS.map((outfit, index) => <article key={outfit.image} className="story-outfit">
               <figure className="story-outfit-media"><img src={outfit.image} alt={outfit.alt} width="1122" height="1402" loading="lazy" decoding="async" /></figure>
-              <div className="story-outfit-copy"><h3>{outfit.title}</h3><p>{outfit.copy}</p></div>
+              <div className="story-outfit-copy"><span className="story-outfit-number num">0{index + 1}</span><div><h3>{outfit.title}</h3><p>{outfit.copy}</p></div></div>
             </article>)}
           </div>
+          <div className="story-wardrobe-progress" aria-hidden="true"><span>One wardrobe</span><div><i /><i /><i /></div></div>
         </div>
       </section>
 
-      <section className="story-lioness surface-dark" aria-labelledby="story-lioness-title">
-        <div className="wrap">
-          <Mark className="story-lioness-mark rv" />
-          <h2 id="story-lioness-title" className="story-heading rv"><span>Certain.</span> <span>Unhurried.</span> <em>Sovereign.</em></h2>
-          <div className="story-signature rv">
-            <Stitch size={24} className="story-signature-stitch" />
-            <p>The lioness. A mark of self-possession. The cross stitch, our signature.</p>
-          </div>
-        </div>
-      </section>
-
-      <section className="story-closing surface-dark" aria-labelledby="story-invitation">
-        <div className="wrap story-closing-grid">
-          <div className="story-closing-copy">
-            <h2 id="story-invitation" className="story-heading rv">The next piece<br />is <em>yours.</em></h2>
-            <p className="rv">Your colour. Your cut. Your next chapter.</p>
-            <div className="story-closing-actions rv"><Link to="/collection" className="btn btn-solid">Explore the collection</Link><Link to="/atelier" className="link">Make it yours</Link></div>
-          </div>
-          <figure className="story-closing-photo story-photo rv"><img src="./images/campaign-v2/look.jpg" alt="An Indian woman wearing dove-grey tailoring and ivory silk in a sunlit colonnade" width="1122" height="1402" loading="lazy" decoding="async" data-story-drift="9" /></figure>
+      <section className="story-resolution" data-story-scene="sovereign" aria-labelledby="story-lioness-title">
+        <figure className="story-resolution-photo" aria-hidden="true"><img src="./images/story-v1/separates.jpg" alt="" width="1122" height="1402" loading="lazy" decoding="async" /></figure>
+        <div className="story-resolution-veil" />
+        <div className="wrap story-resolution-content">
+          <Chapter>In her own right</Chapter>
+          <h2 id="story-lioness-title" className="sr-only">Sovereign. Her own measure.</h2>
+          <div className="story-house-signature"><Mark className="story-house-mark" /><Wordmark className="story-house-wordmark" /></div>
+          <p id="story-invitation">The freedom to choose.<br />The confidence to be.</p>
+          <Link to="/atelier" className="story-invitation">Make it yours <ArrowUpRight size={17} strokeWidth={1.2} /></Link>
         </div>
       </section>
     </div>

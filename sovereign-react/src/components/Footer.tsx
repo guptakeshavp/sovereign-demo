@@ -3,15 +3,15 @@ import { Mark, Wordmark } from './Logo'
 import { TapeRule } from './Tape'
 import { useState } from 'react'
 
-export function Footer() {
+export function Footer({ compactBrand = false }: { compactBrand?: boolean }) {
   const [done, setDone] = useState(false)
   return (
     <footer className="surface-dark pt-14 pb-8">
       <div className="wrap">
-        <div className="grid place-items-center gap-6 mb-10">
+        {!compactBrand && <div className="grid place-items-center gap-6 mb-10">
           <Mark className="w-[48px] opacity-90" />
           <Wordmark className="w-full max-w-[560px] opacity-90" />
-        </div>
+        </div>}
         <TapeRule className="mb-10" />
         <div className="grid gap-10 md:grid-cols-[1.5fr_1fr_1fr]">
           <div>
