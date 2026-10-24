@@ -4,7 +4,6 @@ An Indian tailoring and formalwear concept, focused on women.
 
 - **Editable React application:** [`sovereign-react/`](sovereign-react/)
 - **Published demo:** [Sovereign](https://guptakeshavp.github.io/sovereign-demo/)
-- **Earlier static approach:** [`classic/`](classic/) · [live preview](https://guptakeshavp.github.io/sovereign-demo/classic/)
 
 ## Develop
 

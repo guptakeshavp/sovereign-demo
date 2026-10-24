@@ -1,8 +1,6 @@
-# Sovereign — approach 2 (React demo)
+# Sovereign — React demo
 
 A women-first luxury tailoring flagship for Sovereign: homepage, collection, product page, the Atelier garment customiser, Find Your Fit, Shop the Look, Our Story, wishlist and a demonstration bag/checkout.
-
-Approach 1 (the static site) lives untouched in `../site/`. This folder is independent.
 
 ## Run
 ```
@@ -51,12 +49,11 @@ public/           images/ (AI-generated demo photography) · logo/ · fonts/
 - The checkout ends in a clearly labelled demonstration state; nothing is charged or sent.
 
 ## Live demo
-- Approach 2: https://guptakeshavp.github.io/sovereign-demo/
-- Approach 1: https://guptakeshavp.github.io/sovereign-demo/classic/
+- React demo: https://guptakeshavp.github.io/sovereign-demo/
 
-The public repo `guptakeshavp/sovereign-demo` now also stores this editable project in `sovereign-react/`. The repository root contains the separately published site; `classic/` contains Approach 1.
+The public repo `guptakeshavp/sovereign-demo` now also stores this editable project in `sovereign-react/`. The repository root contains the separately published React site.
 
-Source commits do not update the published application files. Publishing the latest design is a separate, manual step after approval: build this project, then update the published files while retaining `sovereign-react/`, `classic/` and Git metadata. No automatic source-build workflow is configured in this repository.
+Source commits do not update the published application files. Publishing the latest design is a separate, manual step after approval: build this project, then update the published files while retaining `sovereign-react/` and Git metadata. No automatic source-build workflow is configured in this repository.
 
 Dependencies, build output, local review screenshots/backups and environment files are excluded from source control. Install dependencies from the committed lockfile with `npm ci`.
 
